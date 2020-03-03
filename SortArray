@@ -1,0 +1,99 @@
+package com.gmail.docfordja;
+
+public class SortArray {
+
+	private int[] one;
+	private int[] sorted;
+	private int[] two;
+
+	public SortArray() {
+
+	}
+
+	public SortArray(int[] one, int[] two) {
+		this.one = one;
+		this.two = two;
+		sorting(one);
+		sorting(two);
+		setSorted(merged(one, two));
+	}
+
+	public int[] getTwo() {
+		return two;
+	}
+
+	public void setTwo(int[] two) {
+		this.two = two;
+	}
+
+	public int[] getOne() {
+		return one;
+	}
+
+	public void setOne(int[] one) {
+		this.one = one;
+	}
+
+	public int[] getSorted() {
+		return sorted;
+	}
+
+	public void setSorted(int[] sorted) {
+		this.sorted = sorted;
+	}
+
+	public int[] merged (int[] one, int[] two) {
+		int[] merged = new int[one.length + two.length];
+       /* if(one.length < 1) {
+        	return two;
+        }
+        if(two.length < 1) {
+        	return one;
+        }*/
+		int a = 0;
+		int b = 0;
+		for (int i = 0; i < merged.length; i++) {
+			if (a > one.length - 1) {
+				merged[i] = two[b];
+				b++;
+			} else if (b > two.length - 1) {
+				merged[i] = one[a];
+				a++;
+			} else if (one[a] < two[b]) {
+				merged[i] = one[a];
+				a++;
+			} else if (one[a] > two[b]) {
+				merged[i] = two[b];
+				b++;
+			} else if (one[a] == two[b]) {
+				merged[i] = one[a];
+				a++;
+			}
+		}
+
+	   return merged;
+
+	}
+
+	public void sorting(int[] number) {
+		if (number.length < 2) {
+			sorted = number;
+			return;
+		}
+		int d1 = number.length / 2;
+		while (d1 > 0) {
+			for (int i = 0; i < number.length - d1; i++) {
+				int j = i;
+				while ((j >= 0) && (number[j] > number[j + d1])) {
+					int temp = number[j];
+					number[j] = number[j + d1];
+					number[j + d1] = temp;
+					j--;
+				}
+			}
+			d1 = d1 / 2;
+		}
+
+	}
+
+}
