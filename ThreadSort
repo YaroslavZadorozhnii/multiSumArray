@@ -1,0 +1,72 @@
+package com.gmail.docfordja;
+
+import java.util.Arrays;
+
+public class ThreadSort implements Runnable{
+	private int[] notSorted;
+	private int[] sorted;
+	private static int[] result = new int[0];
+	// Определяет сколько раз разделится поток
+	private static final int number = 300 ;
+	
+	public ThreadSort(int[] notSorted) {
+		this.notSorted = notSorted;
+	}
+	
+	public int getNumber() {
+		return number;
+	}
+
+	public int[] getNotSorted() {
+		return notSorted;
+	}
+	public void setNotSorted(int[] notSorted) {
+		this.notSorted = notSorted;
+	}
+	public int[] getSorted() {
+		return sorted;
+	}
+	public void setSorted(int[] sorted) {
+		this.sorted = sorted;
+	}
+	@Override
+	public void run() {
+		Thread thr = Thread.currentThread();
+		if(notSorted.length < 2) {
+			sorted = notSorted;
+			return;
+		}
+		if(getNumber() > Integer.parseInt(thr.getName().substring(7))) {
+		int[] one = new int[notSorted.length / 2];
+		int[] two = new int[notSorted.length - one.length];
+		//массив делится на 2 части
+		System.arraycopy(notSorted, 0, one, 0, notSorted.length / 2);
+		System.arraycopy(notSorted, notSorted.length / 2, two, 0, notSorted.length - one.length);
+		
+		// 2 массива отдаем на сортироку 2 потокам
+			ThreadSort first = new ThreadSort(one);
+			ThreadSort second = new ThreadSort(two);
+			Thread num1 = new Thread(first);
+			Thread num2 = new Thread(second);
+			num1.start();
+			num2.start();
+			
+		try {
+			num1.join();
+			num2.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		}else {
+			
+		SortArray sa1 = new SortArray();
+		sa1.sorting(notSorted);
+		result = sa1.merged(result, notSorted);
+
+		}
+		setSorted(result);
+	}
+	
+	
+
+}
