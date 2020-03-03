@@ -1,0 +1,44 @@
+package com.gmail.docfordja;
+
+import java.util.Arrays;
+import java.util.Random;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Random random = new Random();
+		int[] array = new int[1000000];
+		for(int i = 0 ; i < array.length ; i++) {
+			array[i] = random.nextInt(100);
+		}
+		
+		int[] array1 = array.clone();
+		
+		SortArray t = new SortArray();
+		
+		ThreadSort one = new ThreadSort(array);
+		Thread neo = new Thread(one);
+		long tstart = System.currentTimeMillis();
+		neo.start();
+		try {
+			neo.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		array = one.getSorted();
+		System.out.println(array[9999] + " " + array[10000] + " " + array[10001] + " " + array[10002]);
+
+		long tend = System.currentTimeMillis(); 
+		System.out.println((tend - tstart)  + " ms Strim metod");
+		
+	    tstart = System.currentTimeMillis();
+		t.sorting(array1);
+		System.out.println(array1[9999] + " " + array1[10000] + " " + array1[10001] + " " + array1[10002]);
+		tend = System.currentTimeMillis(); 
+		System.out.println((tend - tstart) / 1000 + " sec Simple metod");
+
+		
+
+	}
+
+}
