@@ -6,8 +6,8 @@ public class ThreadSort implements Runnable{
 	private int[] notSorted;
 	private int[] sorted;
 	private static int[] result = new int[0];
-	// Определяет сколько раз разделится поток
-	private static final int number = 300 ;
+	
+	private static final int number = 1 ;
 	
 	public ThreadSort(int[] notSorted) {
 		this.notSorted = notSorted;
